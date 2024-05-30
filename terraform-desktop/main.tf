@@ -3,5 +3,5 @@ provider "google" {
 }
 
 module "desktop-server" {
-source = "/home/suasmame/terraform-desktop/modules/desktop-server"
+source = "/terraform-desktop/modules/desktop-server"
 }
