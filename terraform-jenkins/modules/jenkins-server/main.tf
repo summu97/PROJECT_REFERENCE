@@ -58,6 +58,8 @@ resource "google_compute_instance" "bastion" {
     sudo apt-get install jenkins -y
     sudo systemctl start jenkins
     sudo systemctl enable jenkins
+    # Installing docker
+    sudo apt install docker.io -y
     # Install Maven
     wget https://apache.osuosl.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
     tar xzvf apache-maven-3.9.5-bin.tar.gz
