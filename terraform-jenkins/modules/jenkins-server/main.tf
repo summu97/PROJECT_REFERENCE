@@ -14,6 +14,7 @@ resource "google_compute_instance" "bastion" {
   boot_disk {
     initialize_params {
       image = var.image
+      size  = 20 # Size in GB
       labels = {
         my_label = "${terraform.workspace}"
       }
