@@ -29,7 +29,7 @@ resource "google_compute_firewall" "jenkins-server" {
   # Allow rules
   allow {
     protocol = "tcp"
-    ports    = ["22", "8080"]
+    ports    = ["22", "8080", "32768-60999", "4243"]
   }
   
   allow {
@@ -47,7 +47,7 @@ resource "google_compute_firewall" "desktop-server" {
   # Allow rules
   allow {
     protocol = "tcp"
-    ports    = ["22", "3389", "32768-60999", "4243"]
+    ports    = ["22", "3389"]
   }
   
   allow {
