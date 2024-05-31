@@ -60,20 +60,8 @@ resource "google_compute_instance" "bastion" {
     sudo systemctl enable jenkins
     # Installing docker
     sudo apt install docker.io -y
-    # Install Maven
-    wget https://apache.osuosl.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
-    tar xzvf apache-maven-3.9.5-bin.tar.gz
-    sudo mv apache-maven-3.9.5 /opt
-    # Set environment variables
-    echo 'export M2_HOME=/opt/apache-maven-3.9.5' >> ~/.bashrc
-    echo 'export PATH=$M2_HOME/bin:$PATH' >> ~/.bashrc
-    source ~/.bashrc
-    # Install Ansible
-    sudo apt-get update
-    sudo apt-get install -y software-properties-common
-    sudo add-apt-repository --yes --update ppa:ansible/ansible
-    sudo apt-get install -y ansible
-    #source ~/.bashrc
+    sudo sed -i '14s|.*|ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock|' /lib/systemd/system/docker.service
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
   EOF
-
 }
