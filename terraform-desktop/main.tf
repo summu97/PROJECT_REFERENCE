@@ -3,5 +3,5 @@ provider "google" {
 }
 
 module "desktop-server" {
-source = "/terraform-desktop/modules/desktop-server"
+source = "/home/jenkins/workspace/pipeline-1/terraform-desktop/modules/desktop-server"
 }
