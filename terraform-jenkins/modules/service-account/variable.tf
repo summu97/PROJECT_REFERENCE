@@ -9,6 +9,7 @@ variable "roles" {
     "roles/compute.networkAdmin",
     "roles/compute.securityAdmin",
     "roles/iam.serviceAccountUser",
-    "roles/compute.instanceAdmin"
+    "roles/compute.instanceAdmin",
+    "roles/storage.admin"
   ]
 }
