@@ -34,4 +34,14 @@ resource "google_compute_instance" "desktop-server" {
 
   tags = [var.name]  # Add network tags
 
+  metadata = {
+    ssh-keys = "root:${file("/root/.ssh/id_rsa.pub")}"
+  }
+
+  metadata_startup_script = <<-EOF
+    #!/bin/bash
+    sudo apt-get update
+    sudo apt-get install -y git
+  EOF
+
 }
