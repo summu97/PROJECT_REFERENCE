@@ -40,12 +40,17 @@ resource "google_compute_instance" "desktop-server" {
 
   metadata_startup_script = <<-EOF
     #!/bin/bash
-    apt-get update
-    apt-get install -y git
-    sed -i 's/^#*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-    sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-    sed -i 's/^#*AuthorizedKeysFile.*/AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2/' /etc/ssh/sshd_config
-    sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+    # Set password for root
+    passwd root
+    
+    # Modifying config file
+    sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
+    sudo sed -i '58s|.*|PasswordAuthentication yes|' /etc/ssh/sshd_config
+    sudo sed -i '42s|.*|AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2|' /etc/ssh/sshd_config
+    sudo sed -i '39s|.*|PubkeyAuthentication yes|' /etc/ssh/sshd_config
+    
+    # Restart and check status of sshd
     systemctl restart sshd
+    systemctl status sshd
   EOF
 }
