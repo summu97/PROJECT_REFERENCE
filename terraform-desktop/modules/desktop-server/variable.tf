@@ -10,7 +10,7 @@ default = "desktop-server"
 
 variable "zone" {
 type = string
-default = "us-west1-a"
+default = "us-west1-b"
 }
 
 variable "image" {
