@@ -36,7 +36,7 @@ resource "google_compute_instance" "desktop-server" {
 
   metadata = {
     ssh-keys = "root:${file("/root/key_folder/id_rsa.pub")}"
-  }
+  } 
 
   metadata_startup_script = <<-EOF
     #!/bin/bash
