@@ -39,10 +39,7 @@ resource "google_compute_instance" "desktop-server" {
   } 
 
   metadata_startup_script = <<-EOF
-    #!/bin/bash
-    # Set password for root
-    passwd root
-    
+    #!/bin/bash    
     # Modifying config file
     sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
     sudo sed -i '58s|.*|PasswordAuthentication yes|' /etc/ssh/sshd_config
