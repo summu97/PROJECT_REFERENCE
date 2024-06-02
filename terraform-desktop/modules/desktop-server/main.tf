@@ -41,6 +41,7 @@ resource "google_compute_instance" "desktop-server" {
   metadata_startup_script = <<-EOF
     #!/bin/bash
     sudo apt-get update
+    sudo apt-get install -y git
   EOF
 
 }
