@@ -35,7 +35,7 @@ resource "google_compute_instance" "desktop-server" {
   tags = [var.name]  # Add network tags
 
   metadata = {
-    ssh-keys = "root:${file("/root/key_folder")}"
+    ssh-keys = "root:${file("/root/key_folder/id_rsa.pub")}"
   }
 
   metadata_startup_script = <<-EOF
