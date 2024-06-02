@@ -64,15 +64,18 @@ resource "google_compute_instance" "bastion" {
     sudo sed -i '14s|.*|ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock|' /lib/systemd/system/docker.service
     sudo systemctl daemon-reload
     sudo systemctl restart docker
+
     # Modifying config file
     sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
     sudo sed -i '58s|.*|PasswordAuthentication yes|' /etc/ssh/sshd_config
     sudo sed -i '42s|.*|AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2|' /etc/ssh/sshd_config
     sudo sed -i '39s|.*|PubkeyAuthentication yes|' /etc/ssh/sshd_config
-    
+    sudo sed -i '15s|.*|Port 22|' /etc/ssh/sshd_config
+
     # Restart and check status of sshd
     systemctl restart sshd
     systemctl status sshd
+
     # Generate SSH key pair
     ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""
   EOF
