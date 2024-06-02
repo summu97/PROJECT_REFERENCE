@@ -42,6 +42,12 @@ resource "google_compute_instance" "desktop-server" {
     #!/bin/bash
     sudo apt-get update
     sudo apt-get install -y git
+    sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
+    sudo sed -i '58s|.*|PasswordAuthentication yes|' /etc/ssh/sshd_config
+    sudo sed -i '42s|.*|AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2|' /etc/ssh/sshd_config
+    sudo sed -i '39s|.*|PubkeyAuthentication yes|' /etc/ssh/sshd_config
+    # Restart and check status of sshd
+    systemctl restart sshd
+    systemctl status sshd
   EOF
-
 }
