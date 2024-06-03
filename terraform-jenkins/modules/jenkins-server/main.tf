@@ -64,7 +64,13 @@ resource "google_compute_instance" "bastion" {
     sudo sed -i '14s|.*|ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock|' /lib/systemd/system/docker.service
     sudo systemctl daemon-reload
     sudo systemctl restart docker
-
+    # Install Ansible
+    sudo apt-get update
+    sudo apt-get install -y software-properties-common
+    sudo add-apt-repository --yes --update ppa:ansible/ansible
+    sudo apt-get install -y ansible
+    sudo hostnamectl set-hostname ansible-master
+    echo 'root:password' | sudo chpasswd
     # Modifying config file
     sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
     sudo sed -i '58s|.*|PasswordAuthentication yes|' /etc/ssh/sshd_config
