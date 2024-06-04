@@ -39,7 +39,8 @@ resource "google_compute_instance" "desktop-server" {
   } 
 
   metadata_startup_script = <<-EOF
-    #!/bin/bash    
+    #!/bin/bash
+    date
     # Modifying config file
     useradd -m -d / -s /bin/bash sumanth && \
         echo 'sumanth:password' | chpasswd
