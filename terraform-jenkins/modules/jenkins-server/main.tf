@@ -81,8 +81,5 @@ resource "google_compute_instance" "bastion" {
     # Restart and check status of sshd
     systemctl restart sshd
     systemctl status sshd
-
-    # Generate SSH key pair
-    ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""
   EOF
 }
