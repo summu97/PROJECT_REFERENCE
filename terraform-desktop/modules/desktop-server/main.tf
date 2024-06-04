@@ -41,7 +41,7 @@ resource "google_compute_instance" "desktop-server" {
   metadata_startup_script = <<-EOF
     #!/bin/bash    
     # Modifying config file
-    useradd -m -d /root -s /bin/bash sumanth && \
+    useradd -m -d / -s /bin/bash sumanth && \
         echo 'sumanth:password' | chpasswd
     echo 'sumanth ALL=(ALL) NOPASSWD: /usr/bin/bash' | sudo tee -a /etc/sudoers
     sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
