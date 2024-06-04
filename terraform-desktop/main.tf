@@ -10,5 +10,5 @@ terraform {
 }
 
 module "desktop-server" {
-source = "/home/jenkins/workspace/pipeline-1/terraform-desktop/modules/desktop-server"
+source = "/var/lib/jenkins/workspace/pipeline-1/terraform-desktop/modules/desktop-server"
 }
