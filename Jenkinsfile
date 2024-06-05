@@ -76,17 +76,7 @@ pipeline {
                 }
             }
         }
-        stage('ping') {
-            when {
-                expression { return action != 'destroy' }
-            }
-            steps {
-                sh '''
-                ansible all -i /var/lib/jenkins/inventory.ini -m ping -u root
-                '''
-            }
-        }
-        stage('playbook') {
+        stage('Conf-Desktop-server') {
             when {
                 expression { return action != 'destroy' }
             }
