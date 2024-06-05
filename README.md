@@ -16,7 +16,7 @@ Playbook:
 * This has all the "Packages" and "Softwares" to be installed in "Desktop-VM"
 
 Jenkinsfile:
-* This Jenkinsfile has the "Pipeline" which includes different stages to be performed to "Create" and "Configure" the "Desktop-VM".
+* This Jenkinsfile has the "Pipeline" which includes different stages to be performed like "Create" and "Configure" the "Desktop-VM".
 
 STEP1: Creating Infrastructure to run Jenkins-server(master)
 ===
