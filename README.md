@@ -30,7 +30,7 @@ STEP2: Build docker-image
 STEP3: Configuring Jenkins-server
 ===
 * Login to "Jenkins-server" and get password to login to "Jenkins-UI".
-* Now login to "Jenkins-UI" and configure Jenkins to get pipeline from "Jenkinsfile" and use "Docker-image" as agent.
+* Now login to "Jenkins-UI" and configure Jenkins to get pipeline from "Jenkinsfile" from repository and use "Docker-image" as agent.
 
 NOTE:
 ===
