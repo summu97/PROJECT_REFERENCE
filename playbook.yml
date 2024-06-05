@@ -26,7 +26,7 @@
         state: present
 
     - name: Install Ubuntu desktop environment
-      command: DEBIAN_FRONTEND=noninteractive tasksel install ubuntu-desktop
+      shell: DEBIAN_FRONTEND=noninteractive tasksel install ubuntu-desktop
       become: yes
 
     - name: Setting Chrome Remote Desktop session to use Gnome
