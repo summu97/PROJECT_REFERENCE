@@ -37,22 +37,4 @@ resource "google_compute_instance" "desktop-server" {
   metadata = {
     ssh-keys = "root:${file("/var/lib/jenkins/.ssh/id_rsa.pub")}"
   } 
-
-  metadata_startup_script = <<-EOF
-    #!/bin/bash
-    date
-    # Modifying config file
-    useradd -m -d / -s /bin/bash sumanth && \
-        echo 'sumanth:password' | chpasswd
-    echo 'sumanth ALL=(ALL) NOPASSWD: /usr/bin/bash' | sudo tee -a /etc/sudoers
-    sudo sed -i '34s|.*|PermitRootLogin yes|' /etc/ssh/sshd_config
-    sudo sed -i '58s|.*|PasswordAuthentication yes|' /etc/ssh/sshd_config
-    sudo sed -i '42s|.*|AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2|' /etc/ssh/sshd_config
-    sudo sed -i '39s|.*|PubkeyAuthentication yes|' /etc/ssh/sshd_config
-    sudo sed -i '15s|.*|Port 22|' /etc/ssh/sshd_config
-
-    # Restart and check status of sshd
-    systemctl restart sshd
-    systemctl status sshd
-  EOF
 }
