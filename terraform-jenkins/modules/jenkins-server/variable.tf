@@ -1,6 +1,6 @@
 variable "machine_type" {
 type = string
-default = "n2-standard-2"
+default = "n2-standard-4"
 }
 
 variable "name" {
