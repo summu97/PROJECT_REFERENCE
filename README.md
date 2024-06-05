@@ -7,7 +7,7 @@ terraform-jenkins:
 * This module includes creation of necessary resources like "VPC", "Subnet", "Firewall-rules", "Service-Account", "Jenkins-VM".
 
 terraform-desktop:
-* This module includes creation of "Desktop-VM" utilizing the resources created in "terraform-jenkins"
+* This module includes creation of "Desktop-VM" utilizing other resources like network, service-account created in "terraform-jenkins"
 
 Dockerfile:
 * This file sets-up a runtime environment for a "Docker-Container" to perform all the tasks like running "Terraform", running "Ansible-Playbook" etc.
