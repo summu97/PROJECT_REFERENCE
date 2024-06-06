@@ -66,12 +66,5 @@ resource "google_compute_instance" "bastion" {
     sudo systemctl daemon-reload
     sudo systemctl restart docker
 
-    # Install Ansible
-    sudo apt-get update
-    sudo apt-get install -y software-properties-common
-    sudo add-apt-repository --yes --update ppa:ansible/ansible
-    sudo apt-get install -y ansible
-    sudo hostnamectl set-hostname jenkins-ansible-master
-
   EOF
 }
