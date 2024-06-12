@@ -56,7 +56,7 @@ RUN useradd -m -d /var/lib/jenkins -s /bin/bash jenkins && \
 RUN echo 'jenkins ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
 
 # Copy authorized keys
-COPY .ssh/authorized_keys /var/lib/jenkins/.ssh/authorized_keys
+COPY /root/.ssh/authorized_keys /var/lib/jenkins/.ssh/authorized_keys
 
 # Set permissions
 RUN chown -R jenkins:jenkins /var/lib/jenkins/.ssh/ && \
