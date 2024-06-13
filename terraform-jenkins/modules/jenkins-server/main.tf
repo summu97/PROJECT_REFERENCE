@@ -26,6 +26,10 @@ resource "google_compute_instance" "bastion" {
     interface = "NVME"
   }
 
+  labels = {
+    jenkins-server = "true"
+  }
+
   network_interface {
     network = module.networking.network_self_link
     subnetwork = module.networking.subnetwork_self_link
