@@ -35,6 +35,10 @@ resource "google_compute_instance" "bastion" {
     }
   }
 
+  labels = {
+    jenkins-server = "true"
+  }
+
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = module.service-account.svc_email
