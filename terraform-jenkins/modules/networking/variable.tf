@@ -32,3 +32,8 @@ variable "desktop-server_network_tags" {
 type = string
 default = "desktop-server"
 }
+
+variable "tomcat-server_network_tags" {
+type = string
+default = "tomcat-server"
+}
