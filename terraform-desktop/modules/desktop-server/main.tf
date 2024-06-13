@@ -26,6 +26,10 @@ resource "google_compute_instance" "desktop-server" {
     }
   }
 
+  labels = {
+    desktop-server = "true"
+  }
+
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = "custom-svc@sumanth-97.iam.gserviceaccount.com"
