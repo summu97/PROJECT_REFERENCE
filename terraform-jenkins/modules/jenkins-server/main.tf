@@ -1,13 +1,13 @@
 module "networking" {
-source = "/root/terraform-jenkins/modules/networking"
+source = "/root/ASSESMENT/terraform-jenkins/modules/networking"
 }
 
 module "service-account" {
-source = "/root/terraform-jenkins/modules/service-account"
+source = "/root/ASSESMENT/terraform-jenkins/modules/service-account"
 }
 
 resource "google_compute_instance" "bastion" {
-  name         = "${terraform.workspace}-jenkins-server"
+  name         = "jenkins-server"
   machine_type = var.machine_type
   zone         = var.zone
 
@@ -16,7 +16,7 @@ resource "google_compute_instance" "bastion" {
       image = var.image
       size  = 20 # Size in GB
       labels = {
-        my_label = "${terraform.workspace}"
+        my_label = "jenkins-server"
       }
     }
   }
@@ -26,13 +26,9 @@ resource "google_compute_instance" "bastion" {
     interface = "NVME"
   }
 
-  labels = {
-    jenkins-server = "true"
-  }
-
   network_interface {
     network = module.networking.network_self_link
-    subnetwork = module.networking.subnetwork_self_link
+    subnetwork = module.networking.jenkins_subnetwork_self_link
 
     access_config {
       // Ephemeral IP
