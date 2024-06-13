@@ -1,6 +1,6 @@
-resource "google_service_account" "example_service_account" {
-  account_id   = "${terraform.workspace}-svc"
-  display_name = "${terraform.workspace}-svc"
+resource "google_service_account" "custom_service_account" {
+  account_id   = "custom-svc"
+  display_name = "custom-svc"
   project      = var.project_id
 }
 
@@ -10,10 +10,10 @@ resource "google_project_iam_binding" "service_account_role_bindings" {
   role    = var.roles[count.index]
   
   members = [
-    "serviceAccount:${google_service_account.example_service_account.email}"
+    "serviceAccount:${google_service_account.custom_service_account.email}"
   ]
 }
 
 output "svc_email" {
-  value = google_service_account.example_service_account.email
+  value = google_service_account.custom_service_account.email
 }
