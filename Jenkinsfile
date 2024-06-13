@@ -7,11 +7,21 @@ pipeline {
     }
     stages {
         stage('Checkout') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
             steps {
                 git branch: 'main', url: 'https://github.com/summu97/ASSESMENT.git'
             }
         }
         stage('Desktop-tfm-init') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
             steps {
                 sh '''
                 cd /var/lib/jenkins/workspace/pipeline-1/terraform-desktop
@@ -20,6 +30,11 @@ pipeline {
             }
         }
         stage('Desktop-tfm-plan') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
             steps {
                 sh '''
                 cd /var/lib/jenkins/workspace/pipeline-1/terraform-desktop
@@ -28,6 +43,11 @@ pipeline {
             }
         }
         stage('Desktop-tfm-action') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
             steps {
                 sh '''
                 cd /var/lib/jenkins/workspace/pipeline-1/terraform-desktop
@@ -37,7 +57,9 @@ pipeline {
         }
         stage('Create-Inventory-File') {
             when {
-                expression { return action != 'destroy' }
+                expression {
+                    return action == 'ansible'
+                }
             }
             steps {
                 script {
@@ -52,7 +74,9 @@ pipeline {
         }
         stage('Configure Ansible') {
             when {
-                expression { return action != 'destroy' }
+                expression {
+                    return action == 'ansible'
+                }
             }
             steps {
                 script {
@@ -68,7 +92,9 @@ pipeline {
         }
         stage('instance wait time for 60 seconds') {
             when {
-                expression { return action != 'destroy' }
+                expression {
+                    return action == 'ansible'
+                }
             }
             steps{
                 script{
@@ -78,7 +104,9 @@ pipeline {
         }
         stage('Conf-Desktop-server') {
             when {
-                expression { return action != 'destroy' }
+                expression {
+                    return action == 'ansible'
+                }
             }
             steps {
                 sh 'ansible-playbook -i /var/lib/jenkins/inventory.ini playbook.yml -u root'
