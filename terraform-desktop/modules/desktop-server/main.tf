@@ -1,5 +1,5 @@
 resource "google_compute_instance" "desktop-server" {
-  name         = "${terraform.workspace}-desktop-server"
+  name         = "desktop-server"
   machine_type = var.machine_type
   zone         = var.zone
 
@@ -7,7 +7,7 @@ resource "google_compute_instance" "desktop-server" {
     initialize_params {
       image = var.image
       labels = {
-        my_label = "${terraform.workspace}"
+        my_label = "desktop-server"
       }
     }
   }
@@ -18,8 +18,8 @@ resource "google_compute_instance" "desktop-server" {
   }
 
   network_interface {
-    network = "projects/sumanth-97/global/networks/default-vpc"
-    subnetwork = "projects/sumanth-97/regions/us-west1/subnetworks/default-desktop-server-subnet"
+    network = "projects/sumanth-97/global/networks/custom-vpc"
+    subnetwork = "projects/sumanth-97/regions/us-west1/subnetworks/desktop-server-subnet"
 
     access_config {
       // Ephemeral IP
@@ -28,7 +28,7 @@ resource "google_compute_instance" "desktop-server" {
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = "default-svc@sumanth-97.iam.gserviceaccount.com"
+    email  = "custom-svc@sumanth-97.iam.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
 
