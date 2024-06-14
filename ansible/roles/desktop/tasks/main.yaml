@@ -9,3 +9,11 @@
     - Install Ubuntu desktop environment
     - Setting Chrome Remote Desktop session to use Gnome
     - Reboot your Ubuntu VM instance
+
+- name: Deleting packages
+  command: echo "Deleting packages"
+  when: operation == 'destroy'
+  notify:
+    - Remove Chrome Remote Desktop package
+    - Remove Ubuntu desktop environment
+    - Clean up temporary files
