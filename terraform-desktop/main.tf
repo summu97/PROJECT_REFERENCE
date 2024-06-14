@@ -10,5 +10,5 @@ terraform {
 }
 
 module "desktop-server" {
-source = "/root/ASSESMENT/terraform-desktop/modules/desktop-server"
+source = "/var/lib/jenkins/workspace/desktop/terraform-desktop/modules/desktop-server"
 }
