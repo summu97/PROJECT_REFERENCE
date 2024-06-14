@@ -1,12 +1,11 @@
 ---
 - name: Update package
-  apt:
-    update_cache: yes
-    when: operation == 'apply'
-    notify:
-            - Install wget, tasksel, and python3
-            - Download Debian Linux Chrome Remote Desktop installation package
-            - Install the Debian Linux Chrome Remote Desktop installation package
-            - Install Ubuntu desktop environment
-            - Setting Chrome Remote Desktop session to use Gnome
-            - Reboot your Ubuntu VM instance
+  command: apt update
+  when: operation == 'apply'
+  notify:
+    - Install wget, tasksel, and python3
+    - Download Debian Linux Chrome Remote Desktop installation package
+    - Install the Debian Linux Chrome Remote Desktop installation package
+    - Install Ubuntu desktop environment
+    - Setting Chrome Remote Desktop session to use Gnome
+    - Reboot your Ubuntu VM instance
