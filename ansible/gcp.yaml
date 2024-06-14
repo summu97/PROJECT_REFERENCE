@@ -3,7 +3,7 @@ plugin: gcp_compute
 projects:
   - sumanth-97
 auth_kind: serviceaccount
-service_account_file: /var/lib/jenkins/workspace/desktop/service-account.json
+service_account_file: ./ansible/service-account.json
 groups:
   jenkins: "'jenkins' in name"
   desktop: "'desktop' in name"
