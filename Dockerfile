@@ -66,8 +66,10 @@ RUN chmod 644 /var/lib/jenkins/.ssh/id_rsa
 
 # Create inventory directory and touch the service-account.json file
 RUN mkdir -p /var/lib/jenkins/inventory && \
+    chown -R jenkins:jenkins /var/lib/jenkins/inventory && \
     chmod -R 755 /var/lib/jenkins && \
-    touch /var/lib/jenkins/inventory/service-account.json
+    touch /var/lib/jenkins/inventory/service-account.json && \
+    chown -R jenkins:jenkins /var/lib/jenkins/inventory/service-account.json
 
 # Expose the standard SSH port
 EXPOSE 22
