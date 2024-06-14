@@ -1,0 +1,5 @@
+---
+- hosts: "{{ target_hosts }}"
+  become: true
+  roles:
+    - "{{ target_hosts }}"
