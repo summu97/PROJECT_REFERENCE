@@ -1,0 +1,75 @@
+pipeline {
+    agent {
+        label 'docker'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/summu97/ASSESMENT.git'
+            }
+        }
+        stage('Desktop-tfm-init') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
+            steps {
+                sh '''
+                cd /var/lib/jenkins/workspace/desktop/terraform-desktop
+                terraform init
+                '''
+            }
+        }
+        stage('Desktop-tfm-plan') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
+            steps {
+                sh '''
+                cd /var/lib/jenkins/workspace/desktop/terraform-desktop
+                terraform plan
+                '''
+            }
+        }
+        stage('Desktop-tfm-action') {
+            when {
+                expression {
+                    return action == 'apply' || action == 'destroy'
+                }
+            }
+            steps {
+                sh '''
+                cd /var/lib/jenkins/workspace/desktop/terraform-desktop
+                terraform $action --auto-approve
+                '''
+            }
+        }
+        stage('Copying ansible.cfg') {
+            when {
+                expression {
+                    return action == 'ansible'
+                }
+            }
+            steps {
+                sh 'cat ./ansible/ansible.cfg | sudo tee /etc/ansible/ansible.cfg'
+                }
+        }
+        stage('Test connectivity') {
+            when {
+                expression {
+                    return action == 'ansible'
+                }
+            }
+            steps {
+                sh '''
+                chmod -R 755 ansible
+                cd ansible
+                ansible-inventory --graph
+                '''
+            }
+        }
+    }
+}
