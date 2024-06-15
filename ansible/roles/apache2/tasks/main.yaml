@@ -11,9 +11,19 @@
     state: present
   when: operation == 'apply'
 
-- name: Print message
+- name: Python script to write HTML file
   become: yes
-  command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
+  copy:
+    content: |
+      with open('/var/www/html/index.html', 'w') as f:
+          f.write('<html><body><h1>Hello, world!</h1></body></html>\n')
+	  f.write('<p>This is added using Python!</p>\n')
+    dest: /root/file.py
+  when: operation == 'apply'
+
+- name: Run file.py to create HTML file
+  become: yes
+  command: python3 /root/file.py | sudo tee /var/www/html/index.html
   when: operation == 'apply'
 
 - name: Uninstall apache2
