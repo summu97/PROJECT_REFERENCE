@@ -1,8 +1,12 @@
 NOTE: Parameters to be given "target_hosts[---, desktop, tomcat]", "tfm_action[apply, destroy, ansible]", "ansible_action[---,apply, destroy]"
+Pass: Your service-account json key as secret file in jenkins credentials and change SVC_CREDENTIALS with its ID.
 ==============================================
 pipeline {
     agent {
         label 'docker'
+    }
+    environment {
+        GCP_CREDENTIALS = credentials('SVC_CREDENTIALS')
     }
     stages {
         stage('Checkout') {
@@ -57,9 +61,25 @@ pipeline {
             }
             steps {
                 sh 'cat ./ansible/ansible.cfg | sudo tee /etc/ansible/ansible.cfg'
-                }
+            }
         }
-        stage('ansible-playbook-apply'){
+        stage('Copy GCP Credentials to Slave Agent') {
+            when {
+                expression {
+                    return tfm_action == 'ansible'
+                }
+            }
+            steps {
+                script {
+                    // Define the path where the GCP credentials will be copied on the slave agent
+                    def destPath = '/var/lib/jenkins/workspace/desktop/ansible/service-account.json'
+
+                    // Write the secret file to the destination path on the slave agent
+                    writeFile file: destPath, text: new String(readFile(env.GCP_CREDENTIALS).bytes)
+                }
+            }
+        }
+        stage('Playbook-apply'){
              when {
                 expression {
                     return tfm_action == 'ansible' && ansible_action == 'apply'
@@ -69,7 +89,7 @@ pipeline {
                 sh 'ansible-playbook -e "target_hosts=$target_hosts" -e "operation=$ansible_action" ansible/master.yaml'
             }
         }
-        stage('ansible-playbook-destroy'){
+        stage('Playbook-destroy'){
              when {
                 expression {
                     return tfm_action == 'ansible' && ansible_action == 'destroy'
