@@ -1,5 +1,4 @@
 ---
-# Tasks Section
 - name: Update package
   command: apt update
   when: operation == 'apply'
