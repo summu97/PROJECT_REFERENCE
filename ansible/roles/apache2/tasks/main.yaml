@@ -9,12 +9,12 @@
 - name: Uninstall apache2
   apt: name=apache2 state=absent
   when: operation == 'destroy'
-  
-  
+
+
 handlers:
 
-      - name: Install apache2
-        apt: name=apache2 state=present
+        - name: Install apache2
+          apt: name=apache2 state=present
 
-      - name: Print message
-        command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
+        - name: Print message
+          command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
