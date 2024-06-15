@@ -12,13 +12,12 @@ resource "google_compute_instance" "desktop-server" {
     }
   }
 
-  // Local SSD disk
   scratch_disk {
     interface = "NVME"
   }
 
   network_interface {
-    network = "projects/sumanth-97/global/networks/custom-vpc"
+    network    = "projects/sumanth-97/global/networks/custom-vpc"
     subnetwork = "projects/sumanth-97/regions/us-west1/subnetworks/desktop-server-subnet"
 
     access_config {
@@ -27,20 +26,20 @@ resource "google_compute_instance" "desktop-server" {
   }
 
   labels = {
-    desktop-server = "true"
+    desktop_server = "true"
   }
 
   service_account {
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = "custom-svc@sumanth-97.iam.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
 
-  tags = [var.name]  # Add network tags
+  tags = [var.name]
 
   metadata = {
     ssh-keys = "root:${file("/var/lib/jenkins/.ssh/id_rsa.pub")}"
-  } 
+  }
+}
 
 resource "google_compute_instance" "apache2" {
   name         = "apache2"
@@ -56,13 +55,12 @@ resource "google_compute_instance" "apache2" {
     }
   }
 
-  // Local SSD disk
   scratch_disk {
     interface = "NVME"
   }
 
   network_interface {
-    network = "projects/sumanth-97/global/networks/custom-vpc"
+    network    = "projects/sumanth-97/global/networks/custom-vpc"
     subnetwork = "projects/sumanth-97/regions/us-west1/subnetworks/desktop-server-subnet"
 
     access_config {
@@ -75,14 +73,13 @@ resource "google_compute_instance" "apache2" {
   }
 
   service_account {
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     email  = "custom-svc@sumanth-97.iam.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
 
-  tags = [var.name]  # Add network tags
+  tags = [var.name]
 
   metadata = {
     ssh-keys = "root:${file("/var/lib/jenkins/.ssh/id_rsa.pub")}"
-  } 
+  }
 }
