@@ -1,4 +1,5 @@
 ---
+# Tasks Section
 - name: Update package
   command: apt update
   when: operation == 'apply'
@@ -7,14 +8,17 @@
     - Print message
 
 - name: Uninstall apache2
-  apt: name=apache2 state=absent
+  apt: 
+    name: apache2 
+    state: absent
   when: operation == 'destroy'
 
+# Handlers Section
+- name: Install apache2
+  become: yes
+  apt: 
+    name: apache2 
+    state: present
 
-handlers:
-
-        - name: Install apache2
-          apt: name=apache2 state=present
-
-        - name: Print message
-          command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
+- name: Print message
+  command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
