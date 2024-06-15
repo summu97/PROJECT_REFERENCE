@@ -2,22 +2,21 @@
 - name: Update package
   command: apt update
   when: operation == 'apply'
-  notify:
-    - Install apache2
-    - Print message
+    
+    # Handlers Section
+- name: Install apache2
+  become: yes
+  apt: 
+    name: apache2 
+    state: present
+  when: operation == 'apply'
+
+- name: Print message
+  command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
+  when: operation == 'apply'
 
 - name: Uninstall apache2
   apt: 
     name: apache2 
     state: absent
   when: operation == 'destroy'
-
-# Handlers Section
-- name: Install apache2
-  become: yes
-  apt: 
-    name: apache2 
-    state: present
-
-- name: Print message
-  command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
