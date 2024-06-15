@@ -1,4 +1,4 @@
-NOTE: Parameters to be given "target_hosts[---, desktop, tomcat]", "tfm_action[apply, destroy, ansible]", "ansible_action[---,apply, destroy]"
+NOTE: Parameters to be given "tfm_action[apply, destroy, ansible]", "ansible_action[---,apply, destroy]", "target_hosts[---, desktop, tomcat]".
 Pass: Your service-account json key as secret file in jenkins credentials and change SVC_CREDENTIALS with its ID.
 ==============================================
 pipeline {
