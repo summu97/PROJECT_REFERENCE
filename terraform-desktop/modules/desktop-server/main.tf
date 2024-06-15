@@ -42,10 +42,6 @@ resource "google_compute_instance" "desktop-server" {
     ssh-keys = "root:${file("/var/lib/jenkins/.ssh/id_rsa.pub")}"
   } 
 
-
-
-
-
 resource "google_compute_instance" "apache2" {
   name         = "apache2"
   machine_type = var.machine_type
