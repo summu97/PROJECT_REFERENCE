@@ -12,6 +12,7 @@
   when: operation == 'apply'
 
 - name: Print message
+  become: yes
   command: echo "<html><body><h1>Hello World</h1></body></html>" | sudo tee /var/www/html/index.html
   when: operation == 'apply'
 
