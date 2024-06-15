@@ -8,4 +8,6 @@ groups:
   jenkins: "'jenkins' in name"
   desktop: "'desktop' in name"
   tomcat: "'tomcat' in name"
+  apache2: "'apache2' in name"
+
 
