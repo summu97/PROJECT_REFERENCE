@@ -11,6 +11,6 @@ variable "roles" {
     "roles/iam.serviceAccountUser",
     "roles/compute.instanceAdmin",
     "roles/storage.admin",
-    "roles/compute.viewer"
+    "roles/compute.admin"
   ]
 }
