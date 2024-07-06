@@ -1,0 +1,129 @@
+ansible/
+├── environments
+│   ├── dev
+│   │   ├── groups
+│   │   │   ├── adq_ubuntudesktop.yaml
+│   │   │   └── all_hosts.yaml
+│   │   └── inventory.gcp.yaml
+│   └── prod
+├── main.yaml
+├── roles
+│   ├── java
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── notepad++
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── python
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── tomcat
+│   │   ├── handlers
+│   │   │   └── main.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   └── ubuntudesktop
+│       ├── handlers
+│       │   └── main.yaml
+│       └── tasks
+│           └── main.yaml
+├── service-account.json
+└── softwares
+    ├── all.yaml
+    ├── java.yaml
+    ├── notepad++.yaml
+    ├── python.yaml
+    ├── tomcat.yaml
+    └── ubuntudesktop.yaml
+----------------------------------------------
+main.yaml
+
+---
+- name: Apply configurations based on group_vars
+  hosts: "{{ HOSTS }}"
+  vars:
+    HOSTS_VARS: "{{ HOSTS_FILE | default('adq_ubuntudesktop.yaml') }}"
+    SOFTWARES_VARS: "{{ SOFTWARES_FILE | default('all.yaml') }}"
+  vars_files:
+    - "./environments/dev/groups/{{ HOSTS_VARS }}"
+    - "./softwares/{{ SOFTWARES_VARS }}"
+
+  tasks:
+    - name: Apply roles in a loop
+      include_role:
+        name: "{{ item.role_name }}"
+      loop: "{{ roles_to_apply }}"
+
+----------------------------------------------
+environments/dev/groups/all_hosts.yaml
+
+HOSTS: all
+----------------------------------------------
+environments/dev/groups/adq_ubuntudesktop.yaml 
+
+HOSTS: adq_ubuntudesktop
+----------------------------------------------
+environments/dev/inventory.gcp.yaml
+ 
+plugin: gcp_compute
+projects:
+  - sumanth-97
+auth_kind: serviceaccount
+service_account_file: /root/ansible/service-account.json
+filters:
+  - labels.dev=env
+hostnames:
+  - private_ip
+groups:
+  tomcat: "'tomcat' in labels"
+  adq_ubuntudesktop: "'adq_ubuntudesktop' in labels"
+----------------------------------------------
+softwares
+├── all.yaml
+├── java.yaml
+├── notepad++.yaml
+├── python.yaml
+├── tomcat.yaml
+└── ubuntudesktop.yaml
+----------------------------
+all.yaml
+
+roles_to_apply:
+  - role_name: java
+  - role_name: python
+  - role_name: ubuntudesktop
+  - role_name: tomcat
+  - role_name: notepad++
+----------------------------
+java.yaml
+
+roles_to_apply:
+  - role_name: java
+----------------------------
+python.yaml
+
+roles_to_apply:
+  - role_name: python
+----------------------------
+ubuntudesktop.yaml
+
+roles_to_apply:
+  - role_name: ubuntudesktop
+----------------------------
+tomcat.yaml
+
+roles_to_apply:
+  - role_name: tomcat
+----------------------------
+notepad++.yaml
+
+roles_to_apply:
+  - role_name: notepad++
+----------------------------------------------
+ANSIBLE_EXTRA_ARGS: HOSTS_FILE, SOFTWARES_FILE, tomcat_base_version, tomcat_version, java_version, ansible_action(Depends on "ANSIBLE")
+=====
+HOSTS_FILE: adq_ubuntudesktop.yaml(default), all_hosts.yaml
+=====
+SOFTWARES_FILE: all.yaml(default), java.yaml, python.yaml, tomcat.yaml, ubuntudesktop.yaml, notepad++.yaml
+=====
+ansible-playbook -i environments/$ENV main.yaml -e "ansible_action=$ANSIBLE"
